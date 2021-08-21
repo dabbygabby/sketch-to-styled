@@ -1,0 +1,17 @@
+{
+  "$schema": "https://raw.githubusercontent.com/sketch-hq/SketchAPI/develop/docs/sketch-plugin-manifest-schema.json",
+  "icon": "icon.png",
+  "commands": [
+    {
+      "name": "my-command",
+      "identifier": "sketch-to-styled.my-command-identifier",
+      "script": "./my-command.js"
+    }
+  ],
+  "menu": {
+    "title": "sketch-to-styled",
+    "items": [
+      "sketch-to-styled.my-command-identifier"
+    ]
+  }
+}
