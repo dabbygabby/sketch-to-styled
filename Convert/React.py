@@ -53,7 +53,7 @@ def get_border(borders):
         return "null"
 
 def buildStyledComponent(style):
-    with open('styled.jsx', 'a+') as f:
+    with open('styledOutput/styled.jsx', 'w') as f:
         f.write("import React from 'react'\n")
         f.write("import styled from 'styled-components'\n")
         f.write("export const StyledSketch = () => {\n")
@@ -64,15 +64,21 @@ def buildStyledComponent(style):
         f.write("`")
     f.close()
 
-
-
-with open('../output/Rectangle.json') as f:
-    file = json.load(f)
-    border = get_border(file["style"]["borders"])
+def computeStyle(file):
     width = file["frame"]["width"]
     height = file["frame"]["height"]
     color = get_fills(file["style"]["fills"])
-    shadow = get_shadow(file["style"]["shadows"])
+    border = get_border(file["style"]["borders"])
     borderRadius = get_border_radius(file["points"])
+    shadow = get_shadow(file["style"]["shadows"])
     style = "background:" + color + ";\n" + "box-shadow:" + shadow + ";\n" + "width:" + str(width) + "px;\n" + "height:" + str(height) + "px;\n" + "border-radius:" + str(borderRadius) + "px;\n" + "border: " + str(border) + ";\n"
+    return style
+
+# def main 
+currentFile = 'output/Rectangle.json' 
+
+with open(currentFile) as f:
+    file = json.load(f)
+    style = computeStyle(file)
     buildStyledComponent(style)
+    f.close()
