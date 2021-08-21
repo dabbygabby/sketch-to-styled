@@ -1,22 +1,52 @@
 import json
 
+def compute_color(colorParameter):
+    newFill = colorParameter
+    color = "rgba(" + str(int(newFill["color"]["red"]*255)) + ", " + str(int(newFill["color"]["green"]*255)) + ", " + str(int(newFill["color"]["blue"]*255)) + ", " + str(int(newFill["color"]["alpha"]*255)) + ")"
+    return color
+
 def get_fills(fills):
-    newFill = fills[0]
-    if newFill["isEnabled"]:
-        color = "rgba(" + str(int(newFill["color"]["red"]*255)) + ", " + str(int(newFill["color"]["green"]*255)) + ", " + str(int(newFill["color"]["blue"]*255)) + ", " + str(int(newFill["color"]["alpha"]*255)) + ")"
-        return color
+    if fills != []:
+        newFill = fills[0]
+        if newFill["isEnabled"]:
+            color = compute_color(newFill)
+            return color
+        else:
+            return "null"
+    else:
+        return "null" 
 
 def get_shadow(shadows):
     if shadows != []:
         newShadow = shadows[0]
         if newShadow["isEnabled"] == True:
-            color = "rgba(" + str(int(newShadow["color"]["red"]*255)) + ", " + str(int(newShadow["color"]["green"]*255)) + ", " + str(int(newShadow["color"]["blue"]*255)) + ", " + str(int(newShadow["color"]["alpha"]*255)) + ")"
+            color = compute_color(newShadow)
             x = newShadow["offsetX"]
             y = newShadow["offsetY"]
             blurRadius = newShadow["blurRadius"]
             spread = newShadow["spread"]
             shadow = str(x) + "px " + str(y) + "px " + str(blurRadius) + "px " + str(spread) + "px " + color
             return shadow
+        else:
+            return "null"
+    else:
+        return "null"
+
+def get_border_radius(points):
+    try:
+        corners = points[0]["cornerRadius"]
+        return corners
+    except:
+        return 0
+
+def get_border(borders):
+    if borders != []:
+        newBorder = borders[0]
+        if newBorder["isEnabled"] == True:
+            color = compute_color(newBorder)
+            thickness= newBorder["thickness"]
+            border = str(thickness) + "px solid " + color
+            return border
         else:
             return "null"
     else:
@@ -34,22 +64,7 @@ def buildStyledComponent(style):
         f.write("`")
     f.close()
 
-def get_border_radius(points):
-    corners = points[0]["cornerRadius"]
-    return corners
 
-def get_border(borders):
-    if borders != []:
-        newBorder = borders[0]
-        if newBorder["isEnabled"] == True:
-            color = "rgba(" + str(int(newBorder["color"]["red"]*255)) + ", " + str(int(newBorder["color"]["green"]*255)) + ", " + str(int(newBorder["color"]["blue"]*255)) + ", " + str(int(newBorder["color"]["alpha"]*255)) + ")"
-            thickness= newBorder["thickness"]
-            border = str(thickness) + "px solid " + color
-            return border
-        else:
-            return "null"
-    else:
-        return "null"
 
 with open('../output/Rectangle.json') as f:
     file = json.load(f)
